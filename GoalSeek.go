@@ -1,32 +1,11 @@
 package main
 
 import (
-	"fmt"
+	"MathD/MathHelpers"
 	"math"
 )
 
-type fn func(float64) float64
-
-func main() {
-
-	function := fn(func(x float64) float64 {
-		return math.Pow(x, 3) - x - 2
-	})
-
-	derivative := fn(func(x float64) float64 {
-		return 3*math.Pow(x, 2) - 1
-	})
-
-	res := Bisectional(0.00001, 1000, 1, 2, 0, function)
-	resNewton := Newton(0, 1000, 1, 0.00001, function, derivative)
-
-	fmt.Printf("%v,%v", res, function(res))
-	fmt.Println()
-	fmt.Printf("%v,%v", resNewton, function(resNewton))
-
-}
-
-func Newton(seekValue float64, maxIterations int, a float64, cutOff float64, f fn, derF fn) float64 {
+func Newton(seekValue float64, maxIterations int, a float64, cutOff float64, f MathHelpers.Fn, derF MathHelpers.Fn) float64 {
 	x := a
 	newX := x
 	count := 0
@@ -40,7 +19,7 @@ func Newton(seekValue float64, maxIterations int, a float64, cutOff float64, f f
 	return x
 }
 
-func Bisectional(TOL float64, maxIterations int, a float64, b float64, seekValue float64, f fn) float64 {
+func Bisectional(TOL float64, maxIterations int, a float64, b float64, seekValue float64, f MathHelpers.Fn) float64 {
 	for i := 0; i < maxIterations; i++ {
 		c := (a + b) / 2
 		fc := f(c)
